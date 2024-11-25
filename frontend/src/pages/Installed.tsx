@@ -41,9 +41,6 @@ function Installed() {
     }
   );
 
-  // Rest of the component code...
-}
-
   const filteredReleases = useMemo(() => {
     return (
       data?.filter((installedPackage: Release) => {
