@@ -12,6 +12,7 @@ import { Release } from "../data/types";
 function Installed() {
   const { searchParamsObject } = useCustomSearchParams();
   const { context } = useParams();
+  const decodedContext = context ? decodeURIComponent(context) : "";
   const { filteredNamespace } = searchParamsObject;
   const selectedNamespaces = useMemo(
     () => filteredNamespace?.split("+"),
@@ -21,14 +22,14 @@ function Installed() {
 
   const handleClusterChange = (clusterName: string) => {
     navigate({
-      pathname: `/${clusterName}/installed`,
+      pathname: `/${encodeURIComponent(clusterName)}/installed`,
     });
   };
 
   const [filterKey, setFilterKey] = useState<string>("");
   const alertError = useAlertError();
   const { data, isLoading, isRefetching } = useGetInstalledReleases(
-    context ?? "",
+    decodedContext,
     {
       retry: false,
       onError: (e) => {
@@ -39,6 +40,9 @@ function Installed() {
       },
     }
   );
+
+  // Rest of the component code...
+}
 
   const filteredReleases = useMemo(() => {
     return (
